@@ -108,8 +108,8 @@ export function VerificacionPagosPage() {
         titulo={confirmacion?.accion === 'aprobar' ? 'Aprobar pago' : 'Rechazar pago'}
         mensaje={
           confirmacion?.accion === 'aprobar'
-            ? `¿Confirmas que recibiste el pago por ${formatearMoneda(confirmacion?.pago?.monto)} del comprobante ${confirmacion?.pago?.numeroComprobante}? El saldo se reflejará en la cuenta de la unidad.`
-            : `¿Confirmas que deseas rechazar el pago por ${formatearMoneda(confirmacion?.pago?.monto)}? El residente será notificado de que no fue validado.`
+            ? `¿Confirmas que recibiste el pago por ${formatearMoneda(confirmacion?.pago?.montoPagado)} del comprobante registrado? El saldo se reflejará en la cuenta de la unidad.`
+            : `¿Confirmas que deseas rechazar el pago por ${formatearMoneda(confirmacion?.pago?.montoPagado)}? El residente será notificado de que no fue validado.`
         }
         textoConfirmar={confirmacion?.accion === 'aprobar' ? 'Aprobar pago' : 'Rechazar pago'}
         colorConfirmar={confirmacion?.accion === 'aprobar' ? 'success' : 'error'}

@@ -10,10 +10,21 @@ import httpClient from '../api/httpClient';
 
 export async function reportarPago(cobroId, datosPago, archivoSoporte) {
   const formData = new FormData();
-  formData.append('datos', new Blob([JSON.stringify(datosPago)], { type: 'application/json' }));
+
+  // Spring Boot requiere que el JSON sea enviado como un Blob
+  // con el media type application/json cuando se usa una parte que es un DTO
+  const jsonBlob = new Blob([JSON.stringify(datosPago)], { type: 'application/json' });
+  formData.append('datos', jsonBlob);
   formData.append('soporte', archivoSoporte);
 
-  const { data } = await httpClient.post(`/api/cobros/${cobroId}/pagos`, formData);
+  // Aseguramos de que el Content-Type para la request sea multipart/form-data.
+  // No necesitamos fijar explícitamente headers en axios porque si mandas un FormData,
+  // Axios y el Navegador lo hacen por ti, pero hay que observar el servidor.
+  const { data } = await httpClient.post(`/api/cobros/${cobroId}/pagos`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return data.data;
 }
 

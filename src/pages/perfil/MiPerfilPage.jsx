@@ -14,6 +14,7 @@ import { FormTextField } from '../../components/forms/FormTextField';
 import { LoadingState } from '../../components/feedback/LoadingState';
 import { useSnackbar } from '../../hooks/useSnackbar';
 import { obtenerPerfilActual, actualizarEmail, cambiarPassword } from '../../services/perfilService';
+import { listarMisInmuebles } from '../../services/inmuebleService';
 
 const esquemaEmail = z.object({
   nuevoEmail: z.string().min(1, 'El correo es obligatorio').email('Correo electronico invalido'),
@@ -34,6 +35,7 @@ const esquemaPassword = z
 export function MiPerfilPage() {
   const { mostrarNotificacion } = useSnackbar();
   const [perfil, setPerfil] = useState(null);
+  const [inmuebles, setInmuebles] = useState([]);
   const [cargando, setCargando] = useState(true);
 
   const cargarPerfil = async () => {
@@ -41,6 +43,13 @@ export function MiPerfilPage() {
     try {
       const datos = await obtenerPerfilActual();
       setPerfil(datos);
+
+      try {
+        const listadoInmuebles = await listarMisInmuebles();
+        setInmuebles(listadoInmuebles || []);
+      } catch (err) {
+        setInmuebles([]);
+      }
     } catch (error) {
       mostrarNotificacion(error.mensaje ?? 'No fue posible cargar tu perfil.', 'error');
     } finally {
@@ -105,6 +114,24 @@ export function MiPerfilPage() {
         <Box sx={{ mt: 1 }}>
           <Chip label={perfil.rol} size="small" color="primary" variant="outlined" />
         </Box>
+
+        {inmuebles.length > 0 && (
+          <Box sx={{ mt: 3 }}>
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              <strong>Mis Unidades Vinculadas:</strong>
+            </Typography>
+            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+              {inmuebles.map((inm) => (
+                <Chip
+                  key={inm.id}
+                  label={`${inm.tipo} ${inm.numeroIdentificador}`}
+                  size="small"
+                  color="info"
+                />
+              ))}
+            </Box>
+          </Box>
+        )}
       </Paper>
 
       <Grid container spacing={3}>
