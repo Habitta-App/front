@@ -69,6 +69,7 @@ export function MainLayout() {
           >
             <MenuOutlinedIcon />
           </IconButton>
+          <Box component="img" src="/favicon.svg" alt="Habitta Logo" sx={{ width: 32, height: 32, mr: 1.5 }} />
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Habitta-app
           </Typography>

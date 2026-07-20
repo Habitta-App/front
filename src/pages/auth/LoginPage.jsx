@@ -55,21 +55,22 @@ export function LoginPage() {
         px: 2,
       }}
     >
-      <Paper elevation={2} sx={{ p: 4, width: '100%', maxWidth: 400 }}>
+      <Paper elevation={2} sx={{ p: 4, width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Box component="img" src="/favicon.svg" alt="Habitta Logo" sx={{ width: 64, height: 64, mb: 2 }} />
         <Typography variant="h5" fontWeight={600} sx={{ textAlign: 'center' }} gutterBottom>
           Habitta-app
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }} mb={3}>
+        <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', mb: 3 }}>
           Inicia sesion para continuar
         </Typography>
 
         {errorLogin && (
-          <Alert severity="error" sx={{ mb: 2 }}>
+          <Alert severity="error" sx={{ mb: 2, width: '100%' }}>
             {errorLogin}
           </Alert>
         )}
 
-        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ width: '100%' }}>
           <FormTextField name="email" control={control} label="Correo electronico" autoFocus autoComplete="email" />
           <FormTextField
             name="password"
